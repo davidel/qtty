@@ -1,0 +1,94 @@
+
+!IF "$(CFG)" == ""
+CFG=debug
+!ENDIF 
+
+!IF "$(CFG)" != "release" && "$(CFG)" != "debug"
+!MESSAGE Invalid configuration "$(CFG)" specified.
+!MESSAGE You can specify a configuration when running NMAKE
+!MESSAGE by defining the macro CFG on the command line. For example:
+!MESSAGE 
+!MESSAGE nmake /f makefile CFG=debug
+!MESSAGE 
+!MESSAGE Possible choices for configuration are:
+!MESSAGE 
+!MESSAGE "release" ( Win32 x86 release build )
+!MESSAGE "debug"   ( Win32 x86 debug build)
+!MESSAGE 
+!ERROR An invalid configuration is specified.
+!ENDIF 
+
+
+!IF "$(OS)" == "Windows_NT"
+NULL=
+!ELSE 
+NULL=nul
+!ENDIF
+
+
+QTTY=qtty.exe
+SRC_DIR=.
+INCL_DIRS=/I.
+
+CPP_DEFS=/D _CRT_SECURE_NO_DEPRECATE  /D _CRT_NONSTDC_NO_DEPRECATE
+
+!IF "$(CFG)" == "release"
+
+OUTDIR=.\release
+CPP_FLAGS=$(CPP_DEFS) /nologo $(INCL_DIRS) /Zp1 /ML /W3 /EHsc /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" \
+	/D "_MBCS" /Fo"$(OUTDIR)\\" /FD /c
+LINK_DEBUG=
+
+!ELSEIF  "$(CFG)" == "debug"
+
+OUTDIR=.\debug
+CPP_FLAGS=$(CPP_DEFS) /nologo $(INCL_DIRS) /Zp1 /Zi /W3  /EHsc  /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" \
+	/D "_MBCS" /Fo"$(OUTDIR)\\" /FD  /c
+LINK_DEBUG=/DEBUG
+
+!ENDIF
+
+
+CPP=cl.exe
+LINK32=link.exe
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ws2_32.lib /nologo /subsystem:console /incremental:no /machine:I386 $(LINK_DEBUG)
+
+QTTY_OBJS= \
+	"$(OUTDIR)\qtty-syswin.obj" \
+	"$(OUTDIR)\qtty-win.obj" \
+	"$(OUTDIR)\qtty-util.obj" \
+	"$(OUTDIR)\qtty-sha1.obj"
+
+ALL : "$(OUTDIR)\$(QTTY)"
+
+CLEAN :
+	-@erase "$(OUTDIR)\$(QTTY)"
+	-@erase $(QTTY_OBJS)
+	-@erase *.pdb *.idb *.pch "$(OUTDIR)\*.pdb"
+
+"$(OUTDIR)" :
+	if not exist "$(OUTDIR)\$(NULL)" mkdir "$(OUTDIR)"
+
+
+"$(OUTDIR)\$(QTTY)" : "$(OUTDIR)" $(QTTY_OBJS)
+	$(LINK32) @<<
+	$(LINK32_FLAGS) /out:"$(OUTDIR)\$(QTTY)" $(QTTY_OBJS)
+<<
+
+
+SOURCE="$(SRC_DIR)\qtty-syswin.c"
+"$(OUTDIR)\qtty-syswin.obj" : $(SOURCE) "$(OUTDIR)"
+	$(CPP) $(CPP_FLAGS) $(SOURCE)
+
+SOURCE="$(SRC_DIR)\qtty-win.c"
+"$(OUTDIR)\qtty-win.obj" : $(SOURCE) "$(OUTDIR)"
+	$(CPP) $(CPP_FLAGS) $(SOURCE)
+
+SOURCE="$(SRC_DIR)\qtty-util.c"
+"$(OUTDIR)\qtty-util.obj" : $(SOURCE) "$(OUTDIR)"
+	$(CPP) $(CPP_FLAGS) $(SOURCE)
+
+SOURCE="$(SRC_DIR)\qtty-sha1.c"
+"$(OUTDIR)\qtty-sha1.obj" : $(SOURCE) "$(OUTDIR)"
+	$(CPP) $(CPP_FLAGS) $(SOURCE)
+

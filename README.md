@@ -1,2 +1,3 @@
 # qtty
-Console client
+
+For more information see [qtty](http://www.xmailserver.org/qtty.html).

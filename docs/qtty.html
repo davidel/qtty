@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta name="Author" content="Davide Libenzi">
+  <meta name="GENERATOR" content="Mozilla 1.2">
+  <meta name="Keywords"
+ content="QTTY,linux,Windows,Mobile,SmartPhone,PocketPC,console,bluetooth,bluez,RFCOMM">
+  <title>QTTY Home Page</title>
+</head>
+<body style="color: rgb(0, 0, 255);">
+<p align="center"><font size="+1"><span style="font-weight: bold;">QTTY
+Home Page</span><br>
+<br>
+</font></p>
+<span style="font-weight: bold;">QTTY</span> is a console client
+software running on Linux and Windows, that allows BlueTooth RFCOMM
+connections to <a href="qconsole.html">QConsole</a> / <a
+ href="wmconsole.html">WmConsole</a> servers running on Symbian and
+Windows Mobile devices.&nbsp;&nbsp; In order to build <span
+ style="font-weight: bold;">QTTY</span> on Linux, you need the <a
+ href="http://www.bluez.org">BlueZ</a> package (Linux BlueTooth bits),
+whereas on Windows you need the Microsoft Platform SDK (downloadable
+from their developer web site).&nbsp;&nbsp; A pre-built Windows binary
+is also included inside the package, if you are not willing to build <span
+ style="font-weight: bold;">QTTY</span> by yourself.&nbsp;&nbsp; In
+order to connect to a <a href="qconsole.html">QConsole</a> / <a
+ href="wmconsole.html">WmConsole</a> server, you need to know the
+BlueTooth address (or name) of the device you are connecting to, the
+channel number on which the server is listening, and a username /
+password couple.&nbsp;&nbsp; With these information available, you can
+start a session by issuing :<br>
+<br>
+<span style="font-style: italic;">qtty --qc-addr ADDR --qc-channel
+CHNBR --user USERNAME --pass PASSWORD</span><br>
+<br>
+The <span style="font-style: italic;">ADDR</span> parameter can either
+be a BlueTooth address like 00:12:37:6C:33:FB, or a BlueTooth name (in
+which case <span style="font-weight: bold;">QTTY</span> will perform a
+BlueTooth address resolution in order to get the hardware address).
+After a successful login, you can issue an 'help' command in order to
+get a list of all the available commands.<br>
+<br>
+<br>
+<div style="text-align: left;"><br>
+</div>
+<p align="center"><b><font size="+1">License and Software</font></b></p>
+<p align="left"><span style="font-weight: bold;">QTTY</span>&nbsp; <span
+ style="font-weight: bold;"></span>is made available through the <a
+ href="http://www.gnu.org/licenses/gpl.html">GNU GPL</a> license
+together with the complete sources.&nbsp; The latest <span
+ style="font-weight: bold;">QTTY</span> package are available
+here :</p>
+<p align="left"><a href="qtty-1.60.tar.gz">Version 1.60</a></p>
+<div style="text-align: left;"><br>
+<br>
+<br>
+<a style="font-weight: bold;" href="davide.html">Back Home</a><br>
+<br>
+<br>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+
+
+OUTDIR = bin
+TARGET = $(OUTDIR)/qtty
+SRCDIR = .
+INCLUDE = -I.
+
+CC = gcc
+LD = gcc
+MKDEP = mkdep -f .depend
+
+CFLAGS = $(INCLUDE) -DUNIX -DLINUX -g -O0
+LDFLAGS = 
+LIBS = -lreadline -lcurses -lbluetooth
+
+SOURCES = $(SRCDIR)/qtty-lin.c $(SRCDIR)/qtty-syslin.c $(SRCDIR)/qtty-util.c $(SRCDIR)/qtty-sha1.c
+OBJECTS = $(OUTDIR)/qtty-lin.o $(OUTDIR)/qtty-syslin.o $(OUTDIR)/qtty-util.o $(OUTDIR)/qtty-sha1.o
+
+
+$(OUTDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -o $(OUTDIR)/$*.o -c $(SRCDIR)/$*.c
+
+all: $(OUTDIR) .depend $(TARGET)
+
+.depend: $(SOURCES)
+	$(MKDEP) $(CFLAGS) $(SOURCES)
+
+$(TARGET): $(OBJECTS)
+	$(LD) $(LDFLAGS) -o $(TARGET) $(OBJECTS) $(LIBS)
+
+$(OUTDIR):
+	@mkdir $(OUTDIR)
+
+distclean: clean
+	@rm -f .depend
+	@rm -rf $(OUTDIR)
+
+clean:
+	@rm -f $(TARGET)
+	@rm -f $(OBJECTS)
+	@rm -f *~
+
+include .depend
+
